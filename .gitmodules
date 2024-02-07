@@ -1,0 +1,3 @@
+[submodule "contacts-tylergarf"]
+	path = contacts-tylergarf
+	url = https://github.com/CSC335/contacts-tylergarf.git
