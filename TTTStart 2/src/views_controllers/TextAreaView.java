@@ -23,6 +23,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 import model.OurObserver;
 import model.TicTacToeGame;
 
@@ -35,10 +36,16 @@ public class TextAreaView extends BorderPane implements OurObserver {
 	private Button makeMove = new Button();
 	private TextArea gameBoard = new TextArea();
 	private Label somoneWon = new Label();
+	
+	Font fontOne =  Font.font("Mono Space Center",FontWeight.BOLD,32);
+	
 
 	public TextAreaView(TicTacToeGame theModel) {
 		theGame = theModel;
-
+		gameBoard.setFont(fontOne);
+		gameBoard.setCenterShape(true);
+		gameBoard.setStyle("-fx-alignment: CENTER;");
+		
 		initializePanel();
 	}
 
@@ -93,6 +100,32 @@ public class TextAreaView extends BorderPane implements OurObserver {
 		if (theGame.stillRunning()) {
 			makeMove.setText("Make Move");
 			somoneWon.setText("game in progress");
+		}
+
+		else {
+
+			if (theGame.didWin('X')) {
+				somoneWon.setText("X wins");
+				rowInput.setText("");
+				colInput.setText("");
+				makeMove.setText("Start new game in options");
+				gameBoard.setText(theGame.toString());
+				return;
+			} else if (theGame.didWin('O')) {
+				somoneWon.setText("O wins");
+				rowInput.setText("");
+				colInput.setText("");
+				makeMove.setText("Start new game in options");
+				gameBoard.setText(theGame.toString());
+				return;
+			} else if (theGame.tied()) {
+				somoneWon.setText("You tied");
+				rowInput.setText("");
+				colInput.setText("");
+				makeMove.setText("Start new game in options");
+				gameBoard.setText(theGame.toString());
+				return;
+			}
 		}
 
 	}
