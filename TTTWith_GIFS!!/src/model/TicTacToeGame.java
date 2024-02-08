@@ -66,6 +66,7 @@ public class TicTacToeGame extends OurObservable {
 	 * @return
 	 */
 	public ComputerPlayer getComputerPlayer() {
+
 		return computerPlayer;
 	}
 

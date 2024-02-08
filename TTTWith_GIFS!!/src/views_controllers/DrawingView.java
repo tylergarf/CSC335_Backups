@@ -3,14 +3,12 @@ package views_controllers;
 ///import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.control.Label;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.Color;
-import javafx.scene.paint.Paint;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
-import javafx.stage.Stage;
 import model.OurObserver;
 import model.TicTacToeGame;
 
@@ -22,8 +20,14 @@ public class DrawingView extends BorderPane implements OurObserver {
 	private Image bigSquareX = new Image(getClass().getResourceAsStream("big_square.png"), 55, 72, false, false);
 	private Image bigDash = new Image(getClass().getResourceAsStream("dash_og.png"), 55, 72, false, false);
 	private Image goodO = new Image(getClass().getResourceAsStream("O.png"), 55, 72, false, false);
+	private Image winningGif = new Image(getClass().getResourceAsStream("office.gif"));
 
-	private Label gameState = new Label();
+	private ImageView gifImageView = new ImageView(winningGif);
+	
+	private Image tieGif = new Image(getClass().getResourceAsStream("tie.gif"));
+
+	private ImageView tieImageView = new ImageView(tieGif);
+
 	private int xChoice, yChoice = 0;
 
 	public DrawingView(TicTacToeGame theGame) {
@@ -49,6 +53,13 @@ public class DrawingView extends BorderPane implements OurObserver {
 		gc.strokeLine(95, 10, 95, 280); // vert line int 1
 		gc.strokeLine(160, 10, 160, 280); // vert line int 2
 
+		window.getChildren().add(gifImageView);
+		window.getChildren().add(tieImageView);
+		gifImageView.setVisible(false);
+		tieImageView.setVisible(false);
+		
+		
+
 		// row col
 
 		/*
@@ -61,10 +72,8 @@ public class DrawingView extends BorderPane implements OurObserver {
 		 * number 2,0 gc.drawImage(bigSquareX, 31, 205); // square number 2,1
 		 * gc.drawImage(goodO, 99, 205); // square number 2,2
 		 */
-		
-		
+
 		refreshSquares();
-		
 
 	}
 
@@ -72,16 +81,22 @@ public class DrawingView extends BorderPane implements OurObserver {
 	public void update(Object theObserved) {
 		// Handle updates from the observed object (the game)
 		gc = canvas.getGraphicsContext2D();
+		
+		gifImageView.setVisible(false);
+		tieImageView.setVisible(false);
+
 		refreshSquares();
 
 	}
 
 	public void refreshSquares() {
 		gc = canvas.getGraphicsContext2D();
-	    gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
-	    
-	    gc.strokeLine(25, 10, 25, 280); // vert line left
 		
+		gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
+		
+		
+
+		gc.strokeLine(25, 10, 25, 280); // vert line left
 
 		gc.strokeLine(230, 10, 230, 280); // vert line right
 		gc.strokeLine(230, 280, 25, 280); // line horz bottom
@@ -92,50 +107,47 @@ public class DrawingView extends BorderPane implements OurObserver {
 
 		gc.strokeLine(95, 10, 95, 280); // vert line int 1
 		gc.strokeLine(160, 10, 160, 280); // vert line int 2
+
 		char[][] boardCur = theGame.getTicTacToeBoard();
-		
 
-		double[] squareCoordinatesX = {32, 100, 167};
-	    double[] squareCoordinatesY = {15, 110, 203};
-	    
-	    for (int i = 0; i < 3; i++) {
-	        for (int j = 0; j < 3; j++) {
-	            // Calculate the exact coordinates for the current square
-	            double x = squareCoordinatesX[j];
-	            double y = squareCoordinatesY[i];
+		double[] squareCoordinatesX = { 32, 100, 167 };
+		double[] squareCoordinatesY = { 15, 110, 203 };
 
-	            if (boardCur[i][j] == 'O') {
-	                gc.drawImage(goodO, x, y);
-	            }
-	            if (boardCur[i][j] == '_') {
-	                gc.drawImage(bigDash, x, y);
-	            }
-	            if (boardCur[i][j] == 'X') {
-	                gc.drawImage(bigSquareX, x, y);
-	            }
-	            
-	            
-	            
-	            
-	        }
-	    }
-	    
-	    
-	    if (theGame.didWin('X')) {
-			gc.fillText("X wins", 20, 310);
-			
-			
-		} else if (theGame.didWin('O')) {
-			gc.fillText("O wins", 20, 310);
-			
-			
-		} else if (theGame.tied()) {
-			gc.fillText("You tied", 20, 310);
-			
-			
+		for (int i = 0; i < 3; i++) {
+			for (int j = 0; j < 3; j++) {
+				// Calculate the exact coordinates for the current square
+				double x = squareCoordinatesX[j];
+				double y = squareCoordinatesY[i];
+
+				if (boardCur[i][j] == 'O') {
+					gc.drawImage(goodO, x, y);
+				}
+				if (boardCur[i][j] == '_') {
+					gc.drawImage(bigDash, x, y);
+				}
+				if (boardCur[i][j] == 'X') {
+					gc.drawImage(bigSquareX, x, y);
+				}
+
+			}
+
 		}
-		else {
+
+		if (theGame.didWin('X')) {
+			gc.fillText("X wins", 20, 310);
+
+			gifImageView.setVisible(true);
+		} else if (theGame.didWin('O')) {
+			gifImageView.setVisible(true);
+			gc.fillText("O wins", 20, 310);
+
+		} else if (theGame.tied()) {
+			tieImageView.setVisible(true);
+			gc.fillText("You tied", 20, 310);
+
+		} else {
 			gc.fillText("Game in progress", 20, 310);
+
 		}
 	}
 
@@ -202,13 +214,11 @@ public class DrawingView extends BorderPane implements OurObserver {
 					}
 
 					// Reset chosen to false at the end of the event handler
-					
 
 				}
-				
-				
+
 				theGame.humanMove(yChoice, xChoice, false);
-				
+
 				theGame.notifyObservers(theGame);
 
 			}
@@ -220,14 +230,12 @@ public class DrawingView extends BorderPane implements OurObserver {
 				double currentY = event.getSceneY();
 				System.out.println("x: " + currentX + " / y: " + currentY);
 
-				boolean chosen = false;
 				drawing = true;
 
 				// 99 147
 
 				// gc.strokeLine(oldX, oldY, currentX, currentY);
 
-				chosen = false;
 				oldX = currentX;
 				oldY = currentY;
 			}

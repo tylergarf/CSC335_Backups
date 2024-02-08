@@ -36,16 +36,15 @@ public class TextAreaView extends BorderPane implements OurObserver {
 	private Button makeMove = new Button();
 	private TextArea gameBoard = new TextArea();
 	private Label somoneWon = new Label();
-	
-	Font fontOne =  Font.font("Mono Space Center",FontWeight.BOLD,32);
-	
+
+	Font fontOne = Font.font("Mono Space Center", FontWeight.BOLD, 32);
 
 	public TextAreaView(TicTacToeGame theModel) {
 		theGame = theModel;
 		gameBoard.setFont(fontOne);
 		gameBoard.setCenterShape(true);
 		gameBoard.setStyle("-fx-alignment: CENTER;");
-		
+
 		initializePanel();
 	}
 
@@ -94,6 +93,7 @@ public class TextAreaView extends BorderPane implements OurObserver {
 	@Override
 	public void update(Object observable) {
 		System.out.println("update called from OurObservable TicTacToeGame " + theGame);
+
 		gameBoard.setText(theGame.toString());
 		rowInput.setText("");
 		colInput.setText("");
