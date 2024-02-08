@@ -1,9 +1,10 @@
 package views_controllers;
 
-import javafx.scene.Scene;
+///import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
@@ -14,8 +15,13 @@ public class DrawingView extends BorderPane implements OurObserver {
 	private Canvas canvas = new Canvas(800, 600);
 	private BorderPane window = new BorderPane();
 	private TicTacToeGame theGame;
-
+	
+	private Image bigSquareX = new Image(getClass().getResourceAsStream("big_square.png"),55,72,false,false);
+	private Image bigDash = new Image(getClass().getResourceAsStream("dash_og.png"),59,82,false,false);
+	private Image goodO = new Image(getClass().getResourceAsStream("O.png"),55,72,false,false);
+	
 	public DrawingView(TicTacToeGame theGame) {
+		
 		this.theGame = theGame;
 		setCenter(window);
 		window.setCenter(canvas);
@@ -32,7 +38,18 @@ public class DrawingView extends BorderPane implements OurObserver {
 		gc.strokeLine(25, 10, 230, 10); // horz line top
 
 		gc.strokeLine(95, 10, 95, 280); // vert line int 1
-		gc.strokeLine(160, 10, 160, 280); // vert line int 2
+		gc.strokeLine(160, 10, 160, 280); // vert line int 2  
+		
+		// row col
+		gc.drawImage(bigSquareX,31, 22); // square number 0,0
+		gc.drawImage(bigSquareX,99, 22); // square number 0,1
+		gc.drawImage(bigSquareX,167, 22); // square number 0,3
+		gc.drawImage(bigSquareX,167, 110); // square number 1,0
+		gc.drawImage(bigDash,31, 110); // square number 1,1
+		gc.drawImage(goodO,99, 110); // square number 1,2
+		gc.drawImage(bigSquareX,167, 205); // square number 2,0
+		gc.drawImage(bigSquareX,31, 205); // square number 2,1
+		gc.drawImage(goodO,99, 205); // square number 2,2
 	}
 
 	@Override
@@ -63,6 +80,7 @@ public class DrawingView extends BorderPane implements OurObserver {
 			drawing = !drawing;
 			oldX = event.getSceneX();
 			oldY = event.getSceneY();
+			
 			if (theGame != null) {
 				theGame.notifyObservers(theGame);
 			}
@@ -72,7 +90,8 @@ public class DrawingView extends BorderPane implements OurObserver {
 			if (drawing) {
 				double currentX = event.getSceneX();
 				double currentY = event.getSceneY();
-				gc.strokeLine(oldX, oldY, currentX, currentY);
+				System.out.println("x: " + currentX + " / y: " + currentY);
+				//gc.strokeLine(oldX, oldY, currentX, currentY);
 				oldX = currentX;
 				oldY = currentY;
 			}
