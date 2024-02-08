@@ -7,6 +7,9 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 import model.OurObserver;
 import model.TicTacToeGame;
@@ -20,15 +23,24 @@ public class DrawingView extends BorderPane implements OurObserver {
 	private Image bigDash = new Image(getClass().getResourceAsStream("dash_og.png"),59,82,false,false);
 	private Image goodO = new Image(getClass().getResourceAsStream("O.png"),55,72,false,false);
 	
+	private Label gameState = new Label();
+	
 	public DrawingView(TicTacToeGame theGame) {
+		Font fontOne =  Font.font("Mono Space",FontWeight.BOLD,22);
+		
+		
+		
+		
 		
 		this.theGame = theGame;
 		setCenter(window);
 		window.setCenter(canvas);
 		gc = canvas.getGraphicsContext2D();
+		gc.setFill(Color.CORAL);
 		gc.setLineWidth(5);
 		registerHandlers(window, canvas);
 		gc.strokeLine(25, 10, 25, 280); // vert line left
+		gc.setFont(fontOne);
 
 		gc.strokeLine(230, 10, 230, 280); // vert line right
 		gc.strokeLine(230, 280, 25, 280); // line horz bottom
@@ -50,6 +62,8 @@ public class DrawingView extends BorderPane implements OurObserver {
 		gc.drawImage(bigSquareX,167, 205); // square number 2,0
 		gc.drawImage(bigSquareX,31, 205); // square number 2,1
 		gc.drawImage(goodO,99, 205); // square number 2,2
+		gc.fillText("Game in progress",20,310);
+		
 	}
 
 	@Override
