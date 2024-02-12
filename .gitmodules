@@ -4,3 +4,6 @@
 [submodule "actual_code_backups_ISwear"]
 	path = actual_code_backups_ISwear
 	url = https://github.com/tylergarf/actual_code_backups_ISwear.git
+[submodule "priortitytodos-tylergarf"]
+	path = priortitytodos-tylergarf
+	url = https://github.com/CSC335/priortitytodos-tylergarf.git
