@@ -7,3 +7,6 @@
 [submodule "priortitytodos-tylergarf"]
 	path = priortitytodos-tylergarf
 	url = https://github.com/CSC335/priortitytodos-tylergarf.git
+[submodule "drawing-tylergarf"]
+	path = drawing-tylergarf
+	url = https://github.com/CSC335/drawing-tylergarf.git
