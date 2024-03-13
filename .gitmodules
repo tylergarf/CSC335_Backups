@@ -10,3 +10,6 @@
 [submodule "drawing-tylergarf"]
 	path = drawing-tylergarf
 	url = https://github.com/CSC335/drawing-tylergarf.git
+[submodule "jukebox-tylercarlo"]
+	path = jukebox-tylercarlo
+	url = https://github.com/CSC335/jukebox-tylercarlo.git
