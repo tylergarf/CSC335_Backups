@@ -13,3 +13,6 @@
 [submodule "jukebox-tylercarlo"]
 	path = jukebox-tylercarlo
 	url = https://github.com/CSC335/jukebox-tylercarlo.git
+[submodule "battleship-alexcarlomatthewtyler"]
+	path = battleship-alexcarlomatthewtyler
+	url = https://github.com/CSC335/battleship-alexcarlomatthewtyler.git
